@@ -1,0 +1,48 @@
+class TeckenRäknare:
+    def __init__(self):
+        self.tecken = 0
+        self.rader = 0
+        self.ord = 0
+        self.längsta_ord = ""
+
+    def uppdatera(self, rad):
+        # Uppdatera antal tecken och rader
+        self.tecken += len(rad)
+        self.rader += 1
+
+        # Dela raden i ord och uppdatera antal ord och det längsta ordet
+        ord_i_rad = rad.split()
+        self.ord += len(ord_i_rad)
+        for ord in ord_i_rad:
+            if len(ord) > len(self.längsta_ord):
+                self.längsta_ord = ord
+
+    def är_stop(self, rad):
+        # Kontrollera om raden är "stop"
+        return rad.strip().lower() == "stop"
+
+
+class TextInmatning:
+    def __init__(self, räknare):
+        self.räknare = räknare
+
+    def start(self):
+        while True:
+            rad = input("Skriv en rad (eller 'stop' för att avsluta): ")
+            if self.räknare.är_stop(rad):
+                break
+            self.räknare.uppdatera(rad)
+
+        self.visa_resultat()
+
+    def visa_resultat(self):
+        print(f"Antal rader: {self.räknare.rader}")
+        print(f"Totalt antal tecken: {self.räknare.tecken}")
+        print(f"Antal ord: {self.räknare.ord}")
+        print(f"Längsta ordet: {self.räknare.längsta_ord}")
+
+
+# Kör programmet
+räknare = TeckenRäknare()
+inmatning = TextInmatning(räknare)
+inmatning.start()
